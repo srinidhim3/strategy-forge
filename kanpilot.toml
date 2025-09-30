@@ -1,0 +1,684 @@
+name = "Strategy Forge Project"
+skipFolders = [
+  "node_modules",
+  ".vscode",
+  "out",
+  "dist",
+  ".venv",
+  "venv",
+  "__pycache__"
+]
+skipFiles = [ ".gitignore" ]
+
+[[processes]]
+id = "process1"
+name = "To Do"
+
+  [[processes.tasks]]
+  id = "task6"
+  title = "Add Project Documentation"
+  description = "create initial README.md with project overview and setup instructions"
+  tag = "setup"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task7"
+  title = "Initial Git Commit"
+  description = "Add all setup files to git, commit with message 'Initial project setup' and push to GitHub main branch"
+  tag = "setup"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task8"
+  title = "Create Project Structure"
+  description = "Create src/ directory with subdirectories: data/, models/, utils/, tests/. Create __init__.py files for proper Python package structure"
+  tag = "setup"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task9"
+  title = "Implement Price Data Fetcher"
+  description = "Create src/data/price_fetcher.py with functions to download daily OHLCV data from yfinance for single stock with date range parameters"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task10"
+  title = "Implement Financial Data Fetcher"
+  description = "Create src/data/financial_fetcher.py to download quarterly financial statements (income statement, balance sheet, cash flow) using yfinance"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task11"
+  title = "Create Financial Metrics Calculator"
+  description = "Create src/models/financial_calculator.py to calculate EPS, BVPS, ROE, ROA, Debt-to-Equity, and other key metrics from raw financial statements"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task12"
+  title = "Implement Data Alignment Pipeline"
+  description = "Create src/data/data_aligner.py to merge daily price data with quarterly financial data, handle reporting lag (45-day shift), and forward-fill metrics"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = "high"
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task13"
+  title = "Create Point-in-Time Ratio Calculator"
+  description = "Create src/models/ratio_calculator.py to calculate daily P/E, P/B, PEG ratios using forward-filled fundamental data and daily prices"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task14"
+  title = "Build Data Processing Pipeline"
+  description = "Create src/data/pipeline.py to orchestrate: fetch price data → fetch financial data → calculate metrics → align data → calculate ratios"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task15"
+  title = "Implement Basic Trading Strategy"
+  description = "Create src/models/strategies.py with simple strategy classes (e.g., P/E ratio threshold, moving average crossover) that generate buy/sell signals"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task16"
+  title = "Create Single-Asset Backtester"
+  description = "Create src/models/backtester.py to simulate trades on single stock using strategy signals, track positions, and calculate returns"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task17"
+  title = "Implement Performance Metrics"
+  description = "Create src/utils/performance.py to calculate Sharpe ratio, max drawdown, CAGR, volatility, and other portfolio performance metrics"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task18"
+  title = "Create CLI Runner for Single Stock"
+  description = "Create main.py as command-line interface to run complete pipeline for single stock: fetch → process → backtest → display results"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task19"
+  title = "Test Single Stock Pipeline"
+  description = "Test complete pipeline with a sample stock (e.g., RELIANCE.NS), debug issues, and ensure accurate point-in-time calculations"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task20"
+  title = "Commit Phase 1 Completion"
+  description = "Add comprehensive tests, commit all Phase 1 code with message 'Phase 1: Core single-asset backtesting engine complete'"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task21"
+  title = "Scale Data Fetcher for Multiple Stocks"
+  description = "Modify data fetchers to handle list of tickers efficiently, implement parallel downloading, and add error handling for failed downloads"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task22"
+  title = "Implement Stock Universe Manager"
+  description = "Create src/data/universe.py to manage stock lists (NIFTY 50, custom lists) and handle ticker symbol validation and filtering"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task23"
+  title = "Scale Data Pipeline for Portfolio"
+  description = "Modify data_aligner.py and pipeline.py to process multiple stocks efficiently with proper memory management and batch processing"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task24"
+  title = "Create Point-in-Time Screener"
+  description = "Create src/models/screener.py with flexible rule engine to filter stocks based on fundamental and technical criteria for specific dates"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task25"
+  title = "Implement Portfolio Manager"
+  description = "Create src/models/portfolio.py to track multi-asset positions, handle rebalancing, and manage cash allocation and transaction costs"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task26"
+  title = "Upgrade Backtester for Portfolios"
+  description = "Extend backtester.py to handle portfolio-level backtesting with periodic rebalancing based on screener results"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task27"
+  title = "Implement Rebalancing Logic"
+  description = "Create rebalancing strategies (equal weight, market cap weighted, custom weights) with configurable frequency (monthly, quarterly)"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task28"
+  title = "Create Portfolio Performance Analytics"
+  description = "Extend performance.py to calculate portfolio-level metrics, sector allocation analysis, and individual stock contribution tracking"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task29"
+  title = "Update CLI for Portfolio Mode"
+  description = "Modify main.py to accept portfolio configuration, stock universe, and screener rules for multi-asset backtesting"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task30"
+  title = "Test Portfolio Pipeline"
+  description = "Test complete portfolio pipeline with NIFTY 50 subset, validate screener logic, and ensure accurate portfolio calculations"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task31"
+  title = "Commit Phase 2 Completion"
+  description = "Add tests for portfolio functionality, commit with message 'Phase 2: Portfolio backtesting with dynamic screener complete'"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task32"
+  title = "Setup FastAPI Application"
+  description = "Create src/api/main.py with FastAPI app structure, add fastapi and uvicorn to requirements.txt, implement basic health check endpoint"
+  tag = "web"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task33"
+  title = "Setup Celery and Redis"
+  description = "Add celery and redis to requirements.txt, create src/api/celery_app.py for background job configuration and worker setup"
+  tag = "web"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task34"
+  title = "Create API Data Models"
+  description = "Create src/api/models.py with Pydantic models for backtest requests, screener rules, strategy parameters, and response schemas"
+  tag = "web"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task35"
+  title = "Implement Backtest API Endpoint"
+  description = "Create POST /api/v1/backtest endpoint that accepts strategy config, validates inputs, and dispatches background job to Celery worker"
+  tag = "web"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task36"
+  title = "Create Background Task Workers"
+  description = "Implement Celery tasks in src/api/tasks.py to run portfolio backtests asynchronously and store results with job status tracking"
+  tag = "web"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task37"
+  title = "Add Job Status Endpoints"
+  description = "Create GET /api/v1/jobs/{job_id} and GET /api/v1/jobs/{job_id}/results endpoints for polling job status and retrieving results"
+  tag = "web"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task38"
+  title = "Setup PostgreSQL Integration"
+  description = "Add sqlalchemy and psycopg2 to requirements, create database models for storing backtest results and job metadata"
+  tag = "web"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task39"
+  title = "Create Streamlit Application"
+  description = "Create src/ui/app.py with Streamlit interface including sidebar for parameters, main area for results, and proper page layout"
+  tag = "web"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task40"
+  title = "Build Screener Rule Builder UI"
+  description = "Create dynamic form in Streamlit for building screener rules with dropdowns for metrics, operators, and value inputs"
+  tag = "web"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task41"
+  title = "Implement Strategy Configuration UI"
+  description = "Add UI components for selecting stock universe, backtest date ranges, rebalancing frequency, and initial capital settings"
+  tag = "web"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task42"
+  title = "Connect UI to API Backend"
+  description = "Implement API client in Streamlit to send requests to FastAPI backend and handle job submission with proper error handling"
+  tag = "web"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task43"
+  title = "Add Progress Tracking UI"
+  description = "Implement real-time job status polling with progress bars and status updates while backtest is running"
+  tag = "web"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task44"
+  title = "Create Results Visualization"
+  description = "Build comprehensive results dashboard with portfolio value charts, performance metrics, drawdown plots, and holdings tables"
+  tag = "web"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task45"
+  title = "Add Export Functionality"
+  description = "Implement CSV/Excel export for backtest results, trade history, and portfolio analytics with downloadable links"
+  tag = "web"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task46"
+  title = "Test Full Web Application"
+  description = "Run end-to-end testing of complete web application: UI → API → background jobs → results display with multiple scenarios"
+  tag = "web"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task47"
+  title = "Commit Phase 3 Completion"
+  description = "Add comprehensive API and UI tests, commit with message 'Phase 3: Complete web application with async job processing'"
+  tag = "web"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task48"
+  title = "Create Application Dockerfile"
+  description = "Create Dockerfile for main application with multi-stage build, proper Python base image, and optimized layer caching"
+  tag = "devops"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task49"
+  title = "Create Docker Compose Configuration"
+  description = "Create docker-compose.yml with services for API, Celery worker, Redis, PostgreSQL, and Streamlit UI with proper networking"
+  tag = "devops"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task50"
+  title = "Add Environment Configuration"
+  description = "Create .env.example and environment variable management for database URLs, Redis connection, and API keys"
+  tag = "devops"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task51"
+  title = "Test Docker Deployment Locally"
+  description = "Build and run complete application stack using docker-compose, test all services communication and data persistence"
+  tag = "devops"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task52"
+  title = "Setup GitHub Actions CI Pipeline"
+  description = "Create .github/workflows/ci.yml for automated testing, linting, security scanning, and Docker image building on every push"
+  tag = "devops"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task53"
+  title = "Add Automated Testing"
+  description = "Create comprehensive test suite with pytest covering unit tests, integration tests, and API endpoint testing"
+  tag = "devops"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task54"
+  title = "Setup Production Environment"
+  description = "Choose cloud provider (GCP, AWS, Azure), set up container registry, and configure production database and Redis instances"
+  tag = "devops"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task55"
+  title = "Configure CD Pipeline"
+  description = "Extend GitHub Actions to automatically deploy to production on main branch pushes with proper environment promotion"
+  tag = "devops"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task56"
+  title = "Add Monitoring and Logging"
+  description = "Implement application logging, error tracking, and basic monitoring for production deployment health checks"
+  tag = "devops"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task57"
+  title = "Performance Optimization"
+  description = "Optimize data processing pipeline, implement caching strategies, and tune database queries for production scale"
+  tag = "devops"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task58"
+  title = "Security Hardening"
+  description = "Implement API authentication, input validation, rate limiting, and security headers for production deployment"
+  tag = "devops"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task59"
+  title = "Final Production Deployment"
+  description = "Deploy complete application to production, configure domain/SSL, and perform final end-to-end testing"
+  tag = "devops"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task60"
+  title = "Documentation and Cleanup"
+  description = "Create comprehensive README, API documentation, deployment guides, and clean up any temporary files or unused code"
+  tag = "devops"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+[[processes]]
+id = "process2"
+name = "In Progress"
+tasks = [ ]
+
+[[processes]]
+id = "process3"
+name = "Done"
+
+  [[processes.tasks]]
+  id = "task2"
+  title = "Clone Repository Locally"
+  description = "Clone the GitHub repository to local machine using git clone command in the Projects directory"
+  tag = "setup"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task3"
+  title = "Setup Python .gitignore"
+  description = "Create .gitignore file with Python template to ignore __pycache__, .venv, venv, .env, *.pyc, and other common Python artifacts"
+  tag = "setup"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task1"
+  title = "Create GitHub Repository"
+  description = "Create a new public repository named 'strategy-forge' on GitHub with appropriate description and README template"
+  tag = "setup"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task4"
+  title = "Create Virtual Environment"
+  description = "Create and activate Python virtual environment using 'python -m venv venv' in project root directory"
+  tag = "setup"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task5"
+  title = "Setup Initial Requirements"
+  description = "Create requirements.txt with core dependencies: pandas, yfinance, numpy, matplotlib, seaborn. Install using pip install -r requirements.txt"
+  tag = "setup"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]

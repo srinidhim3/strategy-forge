@@ -205,3 +205,37 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Strategy Forge specific
+# Downloaded financial data and cache files
+data/
+cache/
+*.csv
+*.parquet
+*.pkl
+*.pickle
+
+# Generated reports and outputs
+reports/
+outputs/
+backtest_results/
+
+# Temporary files
+temp/
+tmp/
+
+# Jupyter notebook checkpoints (additional coverage)
+*.ipynb_checkpoints/
+
+# Log files
+*.log
+logs/
+
+# Configuration files with sensitive data
+config.ini
+settings.json
+
+# API keys and secrets (additional protection)
+.secrets
+secrets.json
+api_keys.txt
