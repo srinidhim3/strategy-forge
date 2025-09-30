@@ -15,50 +15,6 @@ id = "process1"
 name = "To Do"
 
   [[processes.tasks]]
-  id = "task6"
-  title = "Add Project Documentation"
-  description = "create initial README.md with project overview and setup instructions"
-  tag = "setup"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
-  id = "task7"
-  title = "Initial Git Commit"
-  description = "Add all setup files to git, commit with message 'Initial project setup' and push to GitHub main branch"
-  tag = "setup"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
-  id = "task8"
-  title = "Create Project Structure"
-  description = "Create src/ directory with subdirectories: data/, models/, utils/, tests/. Create __init__.py files for proper Python package structure"
-  tag = "setup"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
-  id = "task9"
-  title = "Implement Price Data Fetcher"
-  description = "Create src/data/price_fetcher.py with functions to download daily OHLCV data from yfinance for single stock with date range parameters"
-  tag = "dev"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
   id = "task10"
   title = "Implement Financial Data Fetcher"
   description = "Create src/data/financial_fetcher.py to download quarterly financial statements (income statement, balance sheet, cash flow) using yfinance"
@@ -677,6 +633,50 @@ name = "Done"
   title = "Setup Initial Requirements"
   description = "Create requirements.txt with core dependencies: pandas, yfinance, numpy, matplotlib, seaborn. Install using pip install -r requirements.txt"
   tag = "setup"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task6"
+  title = "Add Project Documentation"
+  description = "create initial README.md with project overview and setup instructions"
+  tag = "setup"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task7"
+  title = "Initial Git Commit"
+  description = "Add all setup files to git, commit with message 'Initial project setup' and push to GitHub main branch"
+  tag = "setup"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task8"
+  title = "Create Project Structure"
+  description = "Create src/ directory with subdirectories: data/, models/, utils/, tests/. Create __init__.py files for proper Python package structure"
+  tag = "setup"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task9"
+  title = "Implement Price Data Fetcher"
+  description = "Create src/data/price_fetcher.py with functions to download daily OHLCV data from yfinance for single stock with date range parameters"
+  tag = "dev"
   linkFiles = [ ]
   dueDate = ""
   checkList = [ ]
