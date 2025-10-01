@@ -15,17 +15,6 @@ id = "process1"
 name = "To Do"
 
   [[processes.tasks]]
-  id = "task11"
-  title = "Create Financial Metrics Calculator"
-  description = "Create src/models/financial_calculator.py to calculate EPS, BVPS, ROE, ROA, Debt-to-Equity, and other key metrics from raw financial statements"
-  tag = "dev"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
   id = "task12"
   title = "Implement Data Alignment Pipeline"
   description = "Create src/data/data_aligner.py to merge daily price data with quarterly financial data, handle reporting lag (45-day shift), and forward-fill metrics"
@@ -687,6 +676,17 @@ name = "Done"
   id = "task10"
   title = "Implement Financial Data Fetcher"
   description = "Create src/data/financial_fetcher.py to download quarterly financial statements (income statement, balance sheet, cash flow) using yfinance"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task11"
+  title = "Create Financial Metrics Calculator"
+  description = "Create src/models/financial_calculator.py to calculate EPS, BVPS, ROE, ROA, Debt-to-Equity, and other key metrics from raw financial statements"
   tag = "dev"
   linkFiles = [ ]
   dueDate = ""

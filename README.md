@@ -74,12 +74,24 @@ pip install -r requirements.txt
 
 ### 4. Run Development Server
 ```bash
-# Start the CLI version (Phase 1)
-python main.py
-
-# Start the web interface (Phase 3)
-streamlit run src/ui/app.py
+# Test the financial calculator (current capability)
+python -c "
+from src.data.financial_fetcher import FinancialFetcher
+from src.models.financial_calculator import FinancialCalculator
+fetcher = FinancialFetcher()
+statements = fetcher.fetch_all_statements('AAPL')
+calc = FinancialCalculator()
+metrics = calc.calculate_all_metrics(statements)
+print(f'Apple ROE: {metrics.loc[\"ROE\"].iloc[0]:.2%}')
+"
 ```
+
+## 📚 Documentation
+
+- **📖 [Complete Documentation](docs/README.md)** - Full documentation index
+- **🏗️ [System Architecture](docs/ARCHITECTURE.md)** - Visual system overview with diagrams
+- **📊 [Task Progress](docs/TASK_PROGRESS.md)** - Detailed development progress
+- **🔧 [Development Setup](docs/DEVELOPMENT.md)** - Complete setup guide
 
 ## 📁 Project Structure
 
