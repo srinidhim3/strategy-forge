@@ -15,50 +15,6 @@ id = "process1"
 name = "To Do"
 
   [[processes.tasks]]
-  id = "task12"
-  title = "Implement Data Alignment Pipeline"
-  description = "Create src/data/data_aligner.py to merge daily price data with quarterly financial data, handle reporting lag (45-day shift), and forward-fill metrics"
-  tag = "dev"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = "high"
-  linkCommits = [ ]
-
-  [[processes.tasks]]
-  id = "task13"
-  title = "Create Point-in-Time Ratio Calculator"
-  description = "Create src/models/ratio_calculator.py to calculate daily P/E, P/B, PEG ratios using forward-filled fundamental data and daily prices"
-  tag = "dev"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
-  id = "task14"
-  title = "Build Data Processing Pipeline"
-  description = "Create src/data/pipeline.py to orchestrate: fetch price data → fetch financial data → calculate metrics → align data → calculate ratios"
-  tag = "dev"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
-  id = "task15"
-  title = "Implement Basic Trading Strategy"
-  description = "Create src/models/strategies.py with simple strategy classes (e.g., P/E ratio threshold, moving average crossover) that generate buy/sell signals"
-  tag = "dev"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
   id = "task16"
   title = "Create Single-Asset Backtester"
   description = "Create src/models/backtester.py to simulate trades on single stock using strategy signals, track positions, and calculate returns"
@@ -687,6 +643,50 @@ name = "Done"
   id = "task11"
   title = "Create Financial Metrics Calculator"
   description = "Create src/models/financial_calculator.py to calculate EPS, BVPS, ROE, ROA, Debt-to-Equity, and other key metrics from raw financial statements"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task12"
+  title = "Implement Data Alignment Pipeline"
+  description = "Create src/data/data_aligner.py to merge daily price data with quarterly financial data, handle reporting lag (45-day shift), and forward-fill metrics"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = "high"
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task13"
+  title = "Create Point-in-Time Ratio Calculator"
+  description = "Create src/models/ratio_calculator.py to calculate daily P/E, P/B, PEG ratios using forward-filled fundamental data and daily prices"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task14"
+  title = "Build Data Processing Pipeline"
+  description = "Create src/data/pipeline.py to orchestrate: fetch price data → fetch financial data → calculate metrics → align data → calculate ratios"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task15"
+  title = "Implement Basic Trading Strategy"
+  description = "Create src/models/strategies.py with simple strategy classes (e.g., P/E ratio threshold, moving average crossover) that generate buy/sell signals"
   tag = "dev"
   linkFiles = [ ]
   dueDate = ""
