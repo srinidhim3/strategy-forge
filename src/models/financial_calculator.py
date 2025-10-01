@@ -53,7 +53,8 @@ class FinancialCalculator:
     def calculate_all_metrics(
         self, 
         statements: Dict[str, pd.DataFrame],
-        shares_outstanding: Optional[pd.Series] = None
+        shares_outstanding: Optional[pd.Series] = None,
+        annualized: bool = True
     ) -> pd.DataFrame:
         """
         Calculate all available financial metrics from complete statement set.
@@ -63,6 +64,8 @@ class FinancialCalculator:
                        and 'cash_flow' DataFrames
             shares_outstanding: Optional series of shares outstanding by period.
                               If None, will extract from balance sheet.
+            annualized: If True, use TTM (trailing twelve months) for income statement
+                       metrics. If False, use quarterly data directly.
         
         Returns:
             pandas.DataFrame: Comprehensive metrics with periods as columns
@@ -70,11 +73,12 @@ class FinancialCalculator:
         Example:
             >>> calc = FinancialCalculator()
             >>> statements = fetcher.fetch_all_statements("AAPL")
-            >>> metrics = calc.calculate_all_metrics(statements)
+            >>> metrics = calc.calculate_all_metrics(statements, annualized=True)
             >>> print(metrics.head())
         """
         try:
-            self.logger.info("Calculating comprehensive financial metrics")
+            calculation_type = "annualized (TTM)" if annualized else "quarterly"
+            self.logger.info(f"Calculating comprehensive financial metrics ({calculation_type})")
             
             # Validate input data
             self._validate_statements(statements)
@@ -93,25 +97,25 @@ class FinancialCalculator:
             
             # Calculate profitability metrics
             profitability = self.calculate_profitability_metrics(
-                income_stmt, balance_sheet
+                income_stmt, balance_sheet, annualized=annualized
             )
             all_metrics.update(profitability)
             
             # Calculate per-share metrics
             per_share = self.calculate_per_share_metrics(
-                income_stmt, balance_sheet, shares_outstanding
+                income_stmt, balance_sheet, shares_outstanding, annualized=annualized
             )
             all_metrics.update(per_share)
             
             # Calculate leverage metrics
             leverage = self.calculate_leverage_metrics(
-                income_stmt, balance_sheet
+                income_stmt, balance_sheet, annualized=annualized
             )
             all_metrics.update(leverage)
             
             # Calculate efficiency metrics
             efficiency = self.calculate_efficiency_metrics(
-                income_stmt, balance_sheet
+                income_stmt, balance_sheet, annualized=annualized
             )
             all_metrics.update(efficiency)
             
@@ -141,7 +145,8 @@ class FinancialCalculator:
     def calculate_profitability_metrics(
         self, 
         income_stmt: pd.DataFrame, 
-        balance_sheet: pd.DataFrame
+        balance_sheet: pd.DataFrame,
+        annualized: bool = True
     ) -> Dict[str, pd.Series]:
         """
         Calculate profitability ratios: ROE, ROA, ROI, profit margins.
@@ -149,6 +154,7 @@ class FinancialCalculator:
         Args:
             income_stmt: Income statement DataFrame
             balance_sheet: Balance sheet DataFrame
+            annualized: If True, use TTM data for income statement items
             
         Returns:
             Dict[str, pd.Series]: Profitability metrics by period
@@ -159,6 +165,10 @@ class FinancialCalculator:
             if income_stmt is None or balance_sheet is None:
                 self.logger.warning("Missing statements for profitability calculations")
                 return metrics
+            
+            # Convert to TTM if requested
+            if annualized:
+                income_stmt = self._annualize_income_statement(income_stmt)
             
             # Get common periods
             common_periods = self._get_common_periods([income_stmt, balance_sheet])
@@ -214,7 +224,8 @@ class FinancialCalculator:
         self, 
         income_stmt: pd.DataFrame, 
         balance_sheet: pd.DataFrame,
-        shares_outstanding: pd.Series
+        shares_outstanding: pd.Series,
+        annualized: bool = True
     ) -> Dict[str, pd.Series]:
         """
         Calculate per-share metrics: EPS, BVPS, Revenue per Share.
@@ -223,6 +234,7 @@ class FinancialCalculator:
             income_stmt: Income statement DataFrame
             balance_sheet: Balance sheet DataFrame
             shares_outstanding: Series of shares outstanding by period
+            annualized: If True, use TTM data for income statement items
             
         Returns:
             Dict[str, pd.Series]: Per-share metrics by period
@@ -233,6 +245,10 @@ class FinancialCalculator:
             if income_stmt is None or balance_sheet is None:
                 self.logger.warning("Missing statements for per-share calculations")
                 return metrics
+            
+            # Convert to TTM if requested
+            if annualized:
+                income_stmt = self._annualize_income_statement(income_stmt)
             
             # Get common periods
             common_periods = self._get_common_periods([income_stmt, balance_sheet])
@@ -283,7 +299,8 @@ class FinancialCalculator:
     def calculate_leverage_metrics(
         self, 
         income_stmt: pd.DataFrame, 
-        balance_sheet: pd.DataFrame
+        balance_sheet: pd.DataFrame,
+        annualized: bool = True
     ) -> Dict[str, pd.Series]:
         """
         Calculate leverage ratios: Debt-to-Equity, Debt-to-Assets, Interest Coverage.
@@ -291,6 +308,7 @@ class FinancialCalculator:
         Args:
             income_stmt: Income statement DataFrame
             balance_sheet: Balance sheet DataFrame
+            annualized: If True, use TTM data for income statement items
             
         Returns:
             Dict[str, pd.Series]: Leverage metrics by period
@@ -301,6 +319,10 @@ class FinancialCalculator:
             if income_stmt is None or balance_sheet is None:
                 self.logger.warning("Missing statements for leverage calculations")
                 return metrics
+            
+            # Convert to TTM if requested
+            if annualized:
+                income_stmt = self._annualize_income_statement(income_stmt)
             
             # Get common periods
             common_periods = self._get_common_periods([income_stmt, balance_sheet])
@@ -356,7 +378,8 @@ class FinancialCalculator:
     def calculate_efficiency_metrics(
         self, 
         income_stmt: pd.DataFrame, 
-        balance_sheet: pd.DataFrame
+        balance_sheet: pd.DataFrame,
+        annualized: bool = True
     ) -> Dict[str, pd.Series]:
         """
         Calculate efficiency ratios: Asset Turnover, Equity Turnover.
@@ -364,6 +387,7 @@ class FinancialCalculator:
         Args:
             income_stmt: Income statement DataFrame
             balance_sheet: Balance sheet DataFrame
+            annualized: If True, use TTM data for income statement items
             
         Returns:
             Dict[str, pd.Series]: Efficiency metrics by period
@@ -374,6 +398,10 @@ class FinancialCalculator:
             if income_stmt is None or balance_sheet is None:
                 self.logger.warning("Missing statements for efficiency calculations")
                 return metrics
+            
+            # Convert to TTM if requested
+            if annualized:
+                income_stmt = self._annualize_income_statement(income_stmt)
             
             # Get common periods
             common_periods = self._get_common_periods([income_stmt, balance_sheet])
@@ -494,6 +522,40 @@ class FinancialCalculator:
                     return float(value)
         
         return None
+    
+    def _annualize_income_statement(self, income_stmt: pd.DataFrame) -> pd.DataFrame:
+        """
+        Convert quarterly income statement data to TTM (Trailing Twelve Months).
+        
+        Args:
+            income_stmt: Quarterly income statement DataFrame
+            
+        Returns:
+            DataFrame with TTM values
+        """
+        try:
+            if income_stmt is None or income_stmt.empty:
+                return income_stmt
+            
+            # Create a copy to avoid modifying original
+            ttm_stmt = income_stmt.copy()
+            
+            # For each period, sum the last 4 quarters
+            for i, period in enumerate(income_stmt.columns):
+                if i >= 3:  # Need at least 4 quarters
+                    # Sum previous 4 quarters including current
+                    quarter_range = income_stmt.columns[i-3:i+1]
+                    ttm_stmt[period] = income_stmt[quarter_range].sum(axis=1)
+                else:
+                    # For periods with less than 4 quarters, use cumulative sum
+                    quarter_range = income_stmt.columns[:i+1]
+                    ttm_stmt[period] = income_stmt[quarter_range].sum(axis=1)
+            
+            return ttm_stmt
+            
+        except Exception as e:
+            self.logger.error(f"Error annualizing income statement: {str(e)}")
+            return income_stmt
     
     def _get_shares_outstanding(self, balance_sheet: pd.DataFrame) -> pd.Series:
         """Extract shares outstanding from balance sheet."""
