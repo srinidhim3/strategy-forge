@@ -15,17 +15,6 @@ id = "process1"
 name = "To Do"
 
   [[processes.tasks]]
-  id = "task10"
-  title = "Implement Financial Data Fetcher"
-  description = "Create src/data/financial_fetcher.py to download quarterly financial statements (income statement, balance sheet, cash flow) using yfinance"
-  tag = "dev"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
   id = "task11"
   title = "Create Financial Metrics Calculator"
   description = "Create src/models/financial_calculator.py to calculate EPS, BVPS, ROE, ROA, Debt-to-Equity, and other key metrics from raw financial statements"
@@ -133,6 +122,17 @@ name = "To Do"
   dueDate = ""
   checkList = [ ]
   priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task20.5"
+  title = "Expand to CFA Level 1 Ratio Set"
+  description = "Enhance financial_calculator.py with complete CFA Level 1 ratios: Activity (Inventory/Receivables/Payables Turnover, Cash Conversion Cycle), Liquidity (Current/Quick/Cash Ratios), Solvency (Coverage Ratios, Financial Leverage), Profitability (All Margins, ROIC), Valuation (EV multiples, PEG, Sustainable Growth), and Per-Share metrics. Implement modular ratio categories with CFA-standard formulas and interpretations."
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = "medium"
   linkCommits = [ ]
 
   [[processes.tasks]]
@@ -676,6 +676,17 @@ name = "Done"
   id = "task9"
   title = "Implement Price Data Fetcher"
   description = "Create src/data/price_fetcher.py with functions to download daily OHLCV data from yfinance for single stock with date range parameters"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task10"
+  title = "Implement Financial Data Fetcher"
+  description = "Create src/data/financial_fetcher.py to download quarterly financial statements (income statement, balance sheet, cash flow) using yfinance"
   tag = "dev"
   linkFiles = [ ]
   dueDate = ""

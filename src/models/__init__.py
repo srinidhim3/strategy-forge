@@ -18,8 +18,10 @@ Key Components:
     screener: Flexible stock screening with rule engine
 """
 
+# Current imports
+from .financial_calculator import FinancialCalculator, calculate_financial_metrics
+
 # Future imports will be added as modules are implemented
-# from .financial_calculator import FinancialCalculator
 # from .ratio_calculator import RatioCalculator
 # from .strategies import Strategy, PERatioStrategy, MovingAverageStrategy
 # from .backtester import Backtester, BacktestResults
@@ -27,5 +29,7 @@ Key Components:
 # from .screener import Screener, ScreenerRule
 
 __all__ = [
+    'FinancialCalculator',
+    'calculate_financial_metrics',
     # Will be populated as modules are implemented
 ]
