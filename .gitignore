@@ -208,7 +208,7 @@ __marimo__/
 
 # Strategy Forge specific
 # Downloaded financial data and cache files
-data/
+/data/
 cache/
 *.csv
 *.parquet
