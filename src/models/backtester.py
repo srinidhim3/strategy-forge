@@ -275,7 +275,7 @@ class BacktestConfig:
 @dataclass
 class BacktestResult:
     """
-    Comprehensive backtesting results container
+    Comprehensive backtesting results container with advanced performance metrics
     """
     symbol: str
     strategy_name: str
@@ -298,10 +298,35 @@ class BacktestResult:
     avg_win: float
     avg_loss: float
     profit_factor: float
+    
+    # Advanced Performance Metrics (Task 17)
+    value_at_risk_95: float = 0.0
+    value_at_risk_99: float = 0.0
+    conditional_var_95: float = 0.0
+    conditional_var_99: float = 0.0
+    information_ratio: float = 0.0
+    treynor_ratio: float = 0.0
+    jensen_alpha: float = 0.0
+    beta: float = 0.0
+    tracking_error: float = 0.0
+    up_capture_ratio: float = 0.0
+    down_capture_ratio: float = 0.0
+    
+    # Rolling Performance Metrics
+    rolling_sharpe_6m: float = 0.0
+    rolling_sortino_6m: float = 0.0
+    rolling_volatility_6m: float = 0.0
+    max_consecutive_wins: int = 0
+    max_consecutive_losses: int = 0
+    
     trades: List[Trade] = field(default_factory=list)
     daily_returns: pd.Series = field(default_factory=pd.Series)
     equity_curve: pd.Series = field(default_factory=pd.Series)
     position_history: pd.DataFrame = field(default_factory=pd.DataFrame)
+    
+    # Benchmark comparison data
+    benchmark_returns: pd.Series = field(default_factory=pd.Series)
+    benchmark_equity: pd.Series = field(default_factory=pd.Series)
     
     def get_summary_dict(self) -> Dict[str, Any]:
         """Get summary statistics as dictionary"""
@@ -317,7 +342,30 @@ class BacktestResult:
             'Profit Factor': f"{self.profit_factor:.2f}",
             'Max Drawdown': f"{self.max_drawdown:.2f}%",
             'Sharpe Ratio': f"{self.sharpe_ratio:.2f}",
+            'Sortino Ratio': f"{self.sortino_ratio:.2f}",
+            'Calmar Ratio': f"{self.calmar_ratio:.2f}",
             'Total Costs': f"${self.total_commission + self.total_slippage:,.2f}"
+        }
+    
+    def get_advanced_metrics_dict(self) -> Dict[str, Any]:
+        """Get advanced performance metrics as dictionary"""
+        return {
+            'Value at Risk (95%)': f"{self.value_at_risk_95:.2f}%",
+            'Value at Risk (99%)': f"{self.value_at_risk_99:.2f}%",
+            'Conditional VaR (95%)': f"{self.conditional_var_95:.2f}%",
+            'Conditional VaR (99%)': f"{self.conditional_var_99:.2f}%",
+            'Information Ratio': f"{self.information_ratio:.2f}",
+            'Treynor Ratio': f"{self.treynor_ratio:.2f}",
+            'Jensen Alpha': f"{self.jensen_alpha:.2f}%",
+            'Beta': f"{self.beta:.2f}",
+            'Tracking Error': f"{self.tracking_error:.2f}%",
+            'Up Capture Ratio': f"{self.up_capture_ratio:.2f}%",
+            'Down Capture Ratio': f"{self.down_capture_ratio:.2f}%",
+            'Rolling Sharpe (6M)': f"{self.rolling_sharpe_6m:.2f}",
+            'Rolling Sortino (6M)': f"{self.rolling_sortino_6m:.2f}",
+            'Rolling Volatility (6M)': f"{self.rolling_volatility_6m:.2f}%",
+            'Max Consecutive Wins': self.max_consecutive_wins,
+            'Max Consecutive Losses': self.max_consecutive_losses
         }
 
 
@@ -614,6 +662,30 @@ class SingleAssetBacktester:
         sortino_ratio = self._calculate_sortino_ratio(daily_returns)
         calmar_ratio = self._calculate_calmar_ratio(daily_returns, max_drawdown)
         
+        # Advanced performance metrics (Task 17)
+        var_95 = self._calculate_value_at_risk(daily_returns, 0.95)
+        var_99 = self._calculate_value_at_risk(daily_returns, 0.99)
+        cvar_95 = self._calculate_conditional_var(daily_returns, 0.95)
+        cvar_99 = self._calculate_conditional_var(daily_returns, 0.99)
+        
+        # Rolling metrics
+        rolling_metrics = self._calculate_rolling_metrics(daily_returns)
+        
+        # Consecutive wins/losses
+        max_wins, max_losses = self._calculate_consecutive_wins_losses(self.trades)
+        
+        # Generate benchmark returns (simple buy-and-hold strategy)
+        benchmark_returns = price_data['close'].pct_change().fillna(0)
+        benchmark_equity = (1 + benchmark_returns).cumprod() * self.config.initial_capital
+        
+        # Benchmark-relative metrics
+        info_ratio = self._calculate_information_ratio(daily_returns, benchmark_returns)
+        treynor_ratio = self._calculate_treynor_ratio(daily_returns, benchmark_returns)
+        jensen_alpha = self._calculate_jensen_alpha(daily_returns, benchmark_returns)
+        beta = self._calculate_beta(daily_returns, benchmark_returns)
+        tracking_error = self._calculate_tracking_error(daily_returns, benchmark_returns)
+        up_capture, down_capture = self._calculate_capture_ratios(daily_returns, benchmark_returns)
+        
         # Create result object
         result = BacktestResult(
             symbol=symbol,
@@ -637,10 +709,31 @@ class SingleAssetBacktester:
             avg_win=avg_win,
             avg_loss=avg_loss,
             profit_factor=profit_factor,
+            
+            # Advanced metrics (Task 17)
+            value_at_risk_95=var_95,
+            value_at_risk_99=var_99,
+            conditional_var_95=cvar_95,
+            conditional_var_99=cvar_99,
+            information_ratio=info_ratio,
+            treynor_ratio=treynor_ratio,
+            jensen_alpha=jensen_alpha,
+            beta=beta,
+            tracking_error=tracking_error,
+            up_capture_ratio=up_capture,
+            down_capture_ratio=down_capture,
+            rolling_sharpe_6m=rolling_metrics['rolling_sharpe'],
+            rolling_sortino_6m=rolling_metrics['rolling_sortino'],
+            rolling_volatility_6m=rolling_metrics['rolling_volatility'],
+            max_consecutive_wins=max_wins,
+            max_consecutive_losses=max_losses,
+            
             trades=self.trades.copy(),
             daily_returns=daily_returns,
             equity_curve=equity_df['portfolio_value'],
-            position_history=equity_df
+            position_history=equity_df,
+            benchmark_returns=benchmark_returns,
+            benchmark_equity=benchmark_equity
         )
         
         return result
@@ -707,6 +800,306 @@ class SingleAssetBacktester:
         
         annual_return = daily_returns.mean() * 252
         return annual_return / abs(max_drawdown / 100)
+    
+    # Advanced Performance Metrics (Task 17)
+    
+    def _calculate_value_at_risk(self, daily_returns: pd.Series, confidence_level: float = 0.95) -> float:
+        """
+        Calculate Value at Risk (VaR) at specified confidence level
+        
+        Args:
+            daily_returns: Series of daily returns
+            confidence_level: Confidence level (e.g., 0.95 for 95% VaR)
+            
+        Returns:
+            VaR as percentage
+        """
+        if len(daily_returns) == 0:
+            return 0.0
+        
+        percentile = (1 - confidence_level) * 100
+        var_daily = np.percentile(daily_returns, percentile)
+        return var_daily * 100  # Convert to percentage
+    
+    def _calculate_conditional_var(self, daily_returns: pd.Series, confidence_level: float = 0.95) -> float:
+        """
+        Calculate Conditional Value at Risk (CVaR) - expected loss beyond VaR
+        
+        Args:
+            daily_returns: Series of daily returns
+            confidence_level: Confidence level (e.g., 0.95 for 95% CVaR)
+            
+        Returns:
+            CVaR as percentage
+        """
+        if len(daily_returns) == 0:
+            return 0.0
+        
+        percentile = (1 - confidence_level) * 100
+        var_threshold = np.percentile(daily_returns, percentile)
+        tail_losses = daily_returns[daily_returns <= var_threshold]
+        
+        if len(tail_losses) == 0:
+            return 0.0
+        
+        cvar = tail_losses.mean()
+        return cvar * 100  # Convert to percentage
+    
+    def _calculate_information_ratio(self, portfolio_returns: pd.Series, benchmark_returns: pd.Series) -> float:
+        """
+        Calculate Information Ratio (active return / tracking error)
+        
+        Args:
+            portfolio_returns: Portfolio daily returns
+            benchmark_returns: Benchmark daily returns
+            
+        Returns:
+            Information ratio
+        """
+        if len(portfolio_returns) == 0 or len(benchmark_returns) == 0:
+            return 0.0
+        
+        # Align the series by date
+        aligned_portfolio, aligned_benchmark = portfolio_returns.align(benchmark_returns, join='inner')
+        
+        if len(aligned_portfolio) == 0:
+            return 0.0
+        
+        active_returns = aligned_portfolio - aligned_benchmark
+        active_return_annual = active_returns.mean() * 252
+        tracking_error_annual = active_returns.std() * np.sqrt(252)
+        
+        if tracking_error_annual == 0:
+            return 0.0
+        
+        return active_return_annual / tracking_error_annual
+    
+    def _calculate_treynor_ratio(self, portfolio_returns: pd.Series, benchmark_returns: pd.Series, 
+                                 risk_free_rate: float = 0.02) -> float:
+        """
+        Calculate Treynor Ratio (excess return / beta)
+        
+        Args:
+            portfolio_returns: Portfolio daily returns
+            benchmark_returns: Benchmark daily returns
+            risk_free_rate: Risk-free rate (annual)
+            
+        Returns:
+            Treynor ratio
+        """
+        if len(portfolio_returns) == 0 or len(benchmark_returns) == 0:
+            return 0.0
+        
+        beta = self._calculate_beta(portfolio_returns, benchmark_returns)
+        if beta == 0:
+            return 0.0
+        
+        annual_return = portfolio_returns.mean() * 252
+        excess_return = annual_return - risk_free_rate
+        
+        return excess_return / beta
+    
+    def _calculate_beta(self, portfolio_returns: pd.Series, benchmark_returns: pd.Series) -> float:
+        """
+        Calculate portfolio beta relative to benchmark
+        
+        Args:
+            portfolio_returns: Portfolio daily returns
+            benchmark_returns: Benchmark daily returns
+            
+        Returns:
+            Beta coefficient
+        """
+        if len(portfolio_returns) == 0 or len(benchmark_returns) == 0:
+            return 0.0
+        
+        # Align the series by date
+        aligned_portfolio, aligned_benchmark = portfolio_returns.align(benchmark_returns, join='inner')
+        
+        if len(aligned_portfolio) < 2:
+            return 0.0
+        
+        covariance = np.cov(aligned_portfolio, aligned_benchmark)[0, 1]
+        benchmark_variance = np.var(aligned_benchmark)
+        
+        if benchmark_variance == 0:
+            return 0.0
+        
+        return covariance / benchmark_variance
+    
+    def _calculate_jensen_alpha(self, portfolio_returns: pd.Series, benchmark_returns: pd.Series,
+                                risk_free_rate: float = 0.02) -> float:
+        """
+        Calculate Jensen's Alpha (portfolio return - expected return based on CAPM)
+        
+        Args:
+            portfolio_returns: Portfolio daily returns
+            benchmark_returns: Benchmark daily returns
+            risk_free_rate: Risk-free rate (annual)
+            
+        Returns:
+            Alpha as annual percentage
+        """
+        if len(portfolio_returns) == 0 or len(benchmark_returns) == 0:
+            return 0.0
+        
+        beta = self._calculate_beta(portfolio_returns, benchmark_returns)
+        portfolio_annual_return = portfolio_returns.mean() * 252
+        benchmark_annual_return = benchmark_returns.mean() * 252
+        
+        expected_return = risk_free_rate + beta * (benchmark_annual_return - risk_free_rate)
+        alpha = portfolio_annual_return - expected_return
+        
+        return alpha * 100  # Convert to percentage
+    
+    def _calculate_tracking_error(self, portfolio_returns: pd.Series, benchmark_returns: pd.Series) -> float:
+        """
+        Calculate tracking error (standard deviation of active returns)
+        
+        Args:
+            portfolio_returns: Portfolio daily returns
+            benchmark_returns: Benchmark daily returns
+            
+        Returns:
+            Tracking error as annual percentage
+        """
+        if len(portfolio_returns) == 0 or len(benchmark_returns) == 0:
+            return 0.0
+        
+        # Align the series by date
+        aligned_portfolio, aligned_benchmark = portfolio_returns.align(benchmark_returns, join='inner')
+        
+        if len(aligned_portfolio) == 0:
+            return 0.0
+        
+        active_returns = aligned_portfolio - aligned_benchmark
+        tracking_error_annual = active_returns.std() * np.sqrt(252)
+        
+        return tracking_error_annual * 100  # Convert to percentage
+    
+    def _calculate_capture_ratios(self, portfolio_returns: pd.Series, benchmark_returns: pd.Series) -> tuple:
+        """
+        Calculate up and down capture ratios
+        
+        Args:
+            portfolio_returns: Portfolio daily returns
+            benchmark_returns: Benchmark daily returns
+            
+        Returns:
+            Tuple of (up_capture_ratio, down_capture_ratio) as percentages
+        """
+        if len(portfolio_returns) == 0 or len(benchmark_returns) == 0:
+            return 0.0, 0.0
+        
+        # Align the series by date
+        aligned_portfolio, aligned_benchmark = portfolio_returns.align(benchmark_returns, join='inner')
+        
+        if len(aligned_portfolio) == 0:
+            return 0.0, 0.0
+        
+        # Separate up and down periods based on benchmark
+        up_periods = aligned_benchmark > 0
+        down_periods = aligned_benchmark < 0
+        
+        up_portfolio = aligned_portfolio[up_periods]
+        up_benchmark = aligned_benchmark[up_periods]
+        down_portfolio = aligned_portfolio[down_periods]
+        down_benchmark = aligned_benchmark[down_periods]
+        
+        # Calculate capture ratios
+        up_capture = 0.0
+        down_capture = 0.0
+        
+        if len(up_portfolio) > 0 and up_benchmark.mean() != 0:
+            up_capture = (up_portfolio.mean() / up_benchmark.mean()) * 100
+        
+        if len(down_portfolio) > 0 and down_benchmark.mean() != 0:
+            down_capture = (down_portfolio.mean() / down_benchmark.mean()) * 100
+        
+        return up_capture, down_capture
+    
+    def _calculate_rolling_metrics(self, daily_returns: pd.Series, window_days: int = 126) -> dict:
+        """
+        Calculate rolling performance metrics (default 6 months = 126 trading days)
+        
+        Args:
+            daily_returns: Series of daily returns
+            window_days: Rolling window size in days
+            
+        Returns:
+            Dictionary with rolling metrics
+        """
+        if len(daily_returns) < window_days:
+            return {
+                'rolling_sharpe': 0.0,
+                'rolling_sortino': 0.0,
+                'rolling_volatility': 0.0
+            }
+        
+        # Calculate rolling Sharpe ratio
+        rolling_returns = daily_returns.rolling(window_days).mean() * 252
+        rolling_volatility = daily_returns.rolling(window_days).std() * np.sqrt(252)
+        rolling_sharpe = (rolling_returns - 0.02) / rolling_volatility  # Assuming 2% risk-free rate
+        
+        # Calculate rolling Sortino ratio
+        rolling_downside_std = daily_returns.rolling(window_days).apply(
+            lambda x: x[x < 0].std() * np.sqrt(252) if len(x[x < 0]) > 0 else 0
+        )
+        rolling_sortino = (rolling_returns - 0.02) / rolling_downside_std
+        
+        # Use the most recent rolling values
+        latest_sharpe = rolling_sharpe.iloc[-1] if not rolling_sharpe.isna().iloc[-1] else 0.0
+        latest_sortino = rolling_sortino.iloc[-1] if not rolling_sortino.isna().iloc[-1] else 0.0
+        latest_volatility = rolling_volatility.iloc[-1] if not rolling_volatility.isna().iloc[-1] else 0.0
+        
+        return {
+            'rolling_sharpe': latest_sharpe,
+            'rolling_sortino': latest_sortino,
+            'rolling_volatility': latest_volatility * 100  # Convert to percentage
+        }
+    
+    def _calculate_consecutive_wins_losses(self, trades: List[Trade]) -> tuple:
+        """
+        Calculate maximum consecutive wins and losses
+        
+        Args:
+            trades: List of executed trades
+            
+        Returns:
+            Tuple of (max_consecutive_wins, max_consecutive_losses)
+        """
+        if not trades:
+            return 0, 0
+        
+        # For simplicity, we'll consider a trade profitable if it's a sell at higher price
+        # than the previous buy, or a buy at lower price than the previous sell
+        current_wins = 0
+        current_losses = 0
+        max_wins = 0
+        max_losses = 0
+        
+        buy_prices = []
+        sell_prices = []
+        
+        for trade in trades:
+            if trade.trade_type == TradeType.BUY:
+                buy_prices.append(trade.price)
+            elif trade.trade_type == TradeType.SELL:
+                sell_prices.append(trade.price)
+                
+                # Check if we have corresponding buy price to compare
+                if buy_prices:
+                    buy_price = buy_prices[-1]  # Use most recent buy price
+                    if trade.price > buy_price:  # Profitable sell
+                        current_wins += 1
+                        current_losses = 0
+                        max_wins = max(max_wins, current_wins)
+                    else:  # Loss on sell
+                        current_losses += 1
+                        current_wins = 0
+                        max_losses = max(max_losses, current_losses)
+        
+        return max_wins, max_losses
 
 
 # Utility functions for backtesting
@@ -761,6 +1154,199 @@ def compare_strategies(
         results.append(result.get_summary_dict())
     
     return pd.DataFrame(results)
+
+
+def compare_strategies_advanced(
+    strategies: List[BaseStrategy],
+    price_data: pd.DataFrame,
+    symbol: str,
+    config: Optional[BacktestConfig] = None,
+    include_advanced_metrics: bool = True
+) -> pd.DataFrame:
+    """
+    Compare multiple strategies with advanced performance metrics
+    
+    Args:
+        strategies: List of strategy instances
+        price_data: Price data DataFrame
+        symbol: Stock symbol
+        config: Backtesting configuration
+        include_advanced_metrics: Whether to include advanced metrics
+        
+    Returns:
+        DataFrame: Detailed comparison results with advanced metrics
+    """
+    results = []
+    
+    for strategy in strategies:
+        if not strategy.signals:
+            logger.warning(f"Strategy {strategy.name} has no signals, skipping")
+            continue
+            
+        result = run_strategy_backtest(strategy, price_data, symbol, config)
+        
+        # Combine basic and advanced metrics
+        basic_metrics = result.get_summary_dict()
+        if include_advanced_metrics:
+            advanced_metrics = result.get_advanced_metrics_dict()
+            combined_metrics = {**basic_metrics, **advanced_metrics}
+        else:
+            combined_metrics = basic_metrics
+            
+        results.append(combined_metrics)
+    
+    return pd.DataFrame(results)
+
+
+def benchmark_strategy_analysis(
+    strategy: BaseStrategy,
+    price_data: pd.DataFrame,
+    symbol: str,
+    benchmark_data: Optional[pd.DataFrame] = None,
+    config: Optional[BacktestConfig] = None
+) -> Dict[str, Any]:
+    """
+    Comprehensive strategy analysis against benchmark
+    
+    Args:
+        strategy: Strategy instance
+        price_data: Price data DataFrame
+        symbol: Stock symbol
+        benchmark_data: Benchmark price data (if None, uses buy-and-hold of same asset)
+        config: Backtesting configuration
+        
+    Returns:
+        Dictionary with comprehensive analysis
+    """
+    if not strategy.signals:
+        raise ValueError(f"Strategy {strategy.name} has no signals")
+    
+    # Run strategy backtest
+    strategy_result = run_strategy_backtest(strategy, price_data, symbol, config)
+    
+    # Calculate benchmark performance (buy-and-hold if no benchmark data provided)
+    if benchmark_data is None:
+        benchmark_returns = price_data['close'].pct_change().fillna(0)
+        benchmark_total_return = ((price_data['close'].iloc[-1] / price_data['close'].iloc[0]) - 1) * 100
+    else:
+        benchmark_returns = benchmark_data['close'].pct_change().fillna(0)
+        benchmark_total_return = ((benchmark_data['close'].iloc[-1] / benchmark_data['close'].iloc[0]) - 1) * 100
+    
+    # Performance comparison
+    analysis = {
+        'Strategy Performance': {
+            'Strategy Name': strategy_result.strategy_name,
+            'Total Return': f"{strategy_result.total_return_pct:.2f}%",
+            'Sharpe Ratio': f"{strategy_result.sharpe_ratio:.2f}",
+            'Max Drawdown': f"{strategy_result.max_drawdown:.2f}%",
+            'Win Rate': f"{strategy_result.win_rate:.1f}%",
+            'Total Trades': strategy_result.total_trades,
+        },
+        
+        'Benchmark Performance': {
+            'Benchmark': 'Buy & Hold' if benchmark_data is None else 'Custom Benchmark',
+            'Total Return': f"{benchmark_total_return:.2f}%",
+            'Volatility': f"{benchmark_returns.std() * np.sqrt(252) * 100:.2f}%",
+            'Sharpe Ratio': f"{(benchmark_returns.mean() * 252 - 0.02) / (benchmark_returns.std() * np.sqrt(252)):.2f}",
+        },
+        
+        'Relative Performance': {
+            'Excess Return': f"{strategy_result.total_return_pct - benchmark_total_return:.2f}%",
+            'Information Ratio': f"{strategy_result.information_ratio:.2f}",
+            'Tracking Error': f"{strategy_result.tracking_error:.2f}%",
+            'Beta': f"{strategy_result.beta:.2f}",
+            'Jensen Alpha': f"{strategy_result.jensen_alpha:.2f}%",
+            'Up Capture Ratio': f"{strategy_result.up_capture_ratio:.2f}%",
+            'Down Capture Ratio': f"{strategy_result.down_capture_ratio:.2f}%",
+        },
+        
+        'Risk Analysis': {
+            'Value at Risk (95%)': f"{strategy_result.value_at_risk_95:.2f}%",
+            'Conditional VaR (95%)': f"{strategy_result.conditional_var_95:.2f}%",
+            'Treynor Ratio': f"{strategy_result.treynor_ratio:.2f}",
+            'Calmar Ratio': f"{strategy_result.calmar_ratio:.2f}",
+            'Rolling Sharpe (6M)': f"{strategy_result.rolling_sharpe_6m:.2f}",
+        }
+    }
+    
+    return analysis
+
+
+def generate_performance_report(result: BacktestResult) -> str:
+    """
+    Generate a comprehensive performance report
+    
+    Args:
+        result: BacktestResult instance
+        
+    Returns:
+        Formatted string report
+    """
+    report = f"""
+🎯 STRATEGY PERFORMANCE REPORT
+{'=' * 50}
+
+📊 BASIC METRICS
+{'-' * 20}
+Strategy: {result.strategy_name}
+Symbol: {result.symbol}
+Period: {result.start_date} to {result.end_date}
+Initial Capital: ${result.initial_capital:,.2f}
+Final Value: ${result.final_portfolio_value:,.2f}
+Total Return: {result.total_return_pct:.2f}%
+
+📈 RETURN METRICS
+{'-' * 20}
+Total Trades: {result.total_trades}
+Winning Trades: {result.winning_trades}
+Win Rate: {result.win_rate:.1f}%
+Average Win: {result.avg_win:.2f}%
+Average Loss: {result.avg_loss:.2f}%
+Profit Factor: {result.profit_factor:.2f}
+
+🎯 RISK METRICS
+{'-' * 20}
+Maximum Drawdown: {result.max_drawdown:.2f}%
+Drawdown Duration: {result.max_drawdown_duration} days
+Sharpe Ratio: {result.sharpe_ratio:.2f}
+Sortino Ratio: {result.sortino_ratio:.2f}
+Calmar Ratio: {result.calmar_ratio:.2f}
+
+📊 ADVANCED RISK ANALYSIS
+{'-' * 20}
+Value at Risk (95%): {result.value_at_risk_95:.2f}%
+Value at Risk (99%): {result.value_at_risk_99:.2f}%
+Conditional VaR (95%): {result.conditional_var_95:.2f}%
+Conditional VaR (99%): {result.conditional_var_99:.2f}%
+
+🔄 BENCHMARK COMPARISON
+{'-' * 20}
+Information Ratio: {result.information_ratio:.2f}
+Treynor Ratio: {result.treynor_ratio:.2f}
+Jensen Alpha: {result.jensen_alpha:.2f}%
+Beta: {result.beta:.2f}
+Tracking Error: {result.tracking_error:.2f}%
+Up Capture Ratio: {result.up_capture_ratio:.2f}%
+Down Capture Ratio: {result.down_capture_ratio:.2f}%
+
+📈 ROLLING PERFORMANCE (6 Months)
+{'-' * 20}
+Rolling Sharpe: {result.rolling_sharpe_6m:.2f}
+Rolling Sortino: {result.rolling_sortino_6m:.2f}
+Rolling Volatility: {result.rolling_volatility_6m:.2f}%
+
+🎲 TRADE ANALYSIS
+{'-' * 20}
+Max Consecutive Wins: {result.max_consecutive_wins}
+Max Consecutive Losses: {result.max_consecutive_losses}
+Total Commission: ${result.total_commission:.2f}
+Total Slippage: ${result.total_slippage:.2f}
+Total Costs: ${result.total_commission + result.total_slippage:.2f}
+
+{'=' * 50}
+Report Generated: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}
+"""
+    return report
 
 
 if __name__ == "__main__":

@@ -13,9 +13,14 @@
 - [Testing Guide](TESTING.md) - Unit tests and integration tests *(Coming Soon)*
 
 ### 📊 User Documentation
+- [CLI Usage Guide](CLI_USAGE_GUIDE.md) - Complete command-line interface guide ✅
 - [User Guide](USER_GUIDE.md) - How to use Strategy Forge *(Coming Soon)*
 - [Strategy Examples](STRATEGY_EXAMPLES.md) - Sample trading strategies *(Coming Soon)*
 - [Performance Metrics](PERFORMANCE_METRICS.md) - Understanding results *(Coming Soon)*
+
+### 📋 Task Summaries
+- [Task 18 Summary](task_summaries/TASK_18_COMPLETION_SUMMARY.md) - CLI Runner implementation ✅
+- [Task 16 Summary](task_summaries/TASK_16_COMPLETION_SUMMARY.md) - Backtesting engine ✅
 
 ### 🚀 Deployment
 - [Docker Setup](DOCKER.md) - Containerized deployment *(Coming Soon)*
@@ -30,17 +35,18 @@
 
 ## 📈 Project Status
 
-**Current Phase**: Phase 1 - Core Engine Development (80% Complete)  
+**Current Phase**: Phase 1 - Core Engine Development (90% Complete)  
 **Last Updated**: October 2, 2025  
-**Completed Tasks**: 16/60 (Major Milestone Achieved!)  
-**Next Milestone**: Performance Metrics Calculator (Task 17)
+**Completed Tasks**: 18/20 Phase 1 tasks (Major CLI Milestone Achieved!)  
+**Next Milestone**: Single Stock Pipeline Testing (Task 19)
 
 ### 🏆 Recent Major Achievements
+- ✅ **CLI Interface (Task 18)**: Production-ready command-line interface with comprehensive features
+- ✅ **Advanced Performance Metrics (Task 17)**: Institutional-grade analytics with VaR, Information Ratio, Jensen Alpha
 - ✅ **Complete Backtesting Engine**: Realistic transaction costs and risk management
 - ✅ **Trading Strategy Framework**: Extensible base with P/E and moving average strategies
 - ✅ **Data Processing Pipeline**: End-to-end data preparation and alignment
-- ✅ **Comprehensive Testing**: 7/7 tests passed with 100% success rate
-- ✅ **Performance Optimized**: <0.1 second execution for 252-day backtests
+- ✅ **Comprehensive Testing**: 17+ test classes with extensive coverage
 
 ---
 

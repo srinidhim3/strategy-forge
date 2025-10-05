@@ -121,6 +121,11 @@ print(f"Win Rate: {results.win_rate:.1%}")
 - **📊 [Task Progress](docs/TASK_PROGRESS.md)** - Detailed development progress
 - **🔧 [Development Setup](docs/DEVELOPMENT.md)** - Complete setup guide
 
+### Task 18: CLI Interface 🖥️
+- **🎯 [CLI Usage Guide](docs/CLI_USAGE_GUIDE.md)** - Comprehensive CLI documentation
+- **📋 [Task 18 Summary](docs/task_summaries/TASK_18_COMPLETION_SUMMARY.md)** - Implementation details
+- **🚀 [CLI Examples](examples/)** - Usage demonstrations and scripts
+
 ## 📁 Project Structure
 
 ```
@@ -177,8 +182,8 @@ strategy-forge/
   - [x] Performance metrics (Sharpe ratio, drawdown, win rate)
 
 - [ ] **Integration & CLI** 🚧
-  - [ ] Performance metrics calculator (Task 17)
-  - [ ] CLI runner for single stock (Task 18)
+  - [x] Performance metrics calculator (Task 17) ✅
+  - [x] CLI runner for single stock (Task 18) ✅
   - [ ] Single stock pipeline testing (Task 19)
   - [ ] Phase 1 completion (Task 20)
 

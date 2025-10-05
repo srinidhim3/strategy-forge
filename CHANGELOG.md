@@ -97,15 +97,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Planned Features
 
-#### Phase 1 Remaining Tasks (80% Complete)
+#### Phase 1 Remaining Tasks (90% Complete)
 - [x] Data fetcher modules (price_fetcher.py, financial_fetcher.py) ✅
 - [x] Financial metrics calculator (EPS, BVPS, ROE, etc.) ✅
 - [x] Point-in-time data alignment pipeline ✅
 - [x] Data processing pipeline integration ✅
 - [x] Trading strategy framework ✅
 - [x] Single-asset backtesting engine ✅
-- [ ] Performance metrics calculator (Task 17)
-- [ ] CLI runner for single stock (Task 18)
+- [x] Performance metrics calculator (Task 17) ✅
+- [x] CLI runner for single stock (Task 18) ✅
 - [ ] Single stock pipeline testing (Task 19)
 - [ ] Phase 1 completion commit (Task 20)
 

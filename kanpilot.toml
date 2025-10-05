@@ -15,28 +15,6 @@ id = "process1"
 name = "To Do"
 
   [[processes.tasks]]
-  id = "task16"
-  title = "Create Single-Asset Backtester"
-  description = "Create src/models/backtester.py to simulate trades on single stock using strategy signals, track positions, and calculate returns"
-  tag = "dev"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
-  id = "task17"
-  title = "Implement Performance Metrics"
-  description = "Create src/utils/performance.py to calculate Sharpe ratio, max drawdown, CAGR, volatility, and other portfolio performance metrics"
-  tag = "dev"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
   id = "task18"
   title = "Create CLI Runner for Single Stock"
   description = "Create main.py as command-line interface to run complete pipeline for single stock: fetch → process → backtest → display results"
@@ -523,7 +501,17 @@ name = "To Do"
 [[processes]]
 id = "process2"
 name = "In Progress"
-tasks = [ ]
+
+  [[processes.tasks]]
+  id = "task17"
+  title = "Implement Performance Metrics"
+  description = "Create src/utils/performance.py to calculate Sharpe ratio, max drawdown, CAGR, volatility, and other portfolio performance metrics"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
 
 [[processes]]
 id = "process3"
@@ -687,6 +675,17 @@ name = "Done"
   id = "task15"
   title = "Implement Basic Trading Strategy"
   description = "Create src/models/strategies.py with simple strategy classes (e.g., P/E ratio threshold, moving average crossover) that generate buy/sell signals"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task16"
+  title = "Create Single-Asset Backtester"
+  description = "Create src/models/backtester.py to simulate trades on single stock using strategy signals, track positions, and calculate returns"
   tag = "dev"
   linkFiles = [ ]
   dueDate = ""
