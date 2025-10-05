@@ -241,7 +241,7 @@ class PEThresholdStrategy(BaseStrategy):
         
         for idx, row in valid_data.iterrows():
             pe_ratio = row['pe_ratio']
-            price = row['close']
+            price = row.get('Close', row.get('close', 0))  # Handle both cases
             date = row.name if isinstance(row.name, str) else str(row.name)
             
             # Determine signal
@@ -316,7 +316,7 @@ class MovingAverageStrategy(BaseStrategy):
             'short_window': 20,
             'long_window': 50,
             'ma_type': 'SMA',
-            'price_column': 'close'
+            'price_column': 'Close'  # Use standard Close column
         }
         
         for key, value in default_params.items():
@@ -393,7 +393,7 @@ class MovingAverageStrategy(BaseStrategy):
             current_row = valid_data.iloc[i]
             previous_row = valid_data.iloc[i-1]
             
-            price = current_row['close']
+            price = current_row.get('Close', current_row.get('close', 0))  # Handle both cases
             date = current_row.name if isinstance(current_row.name, str) else str(current_row.name)
             
             short_ma_curr = current_row['ma_short']
@@ -500,7 +500,7 @@ class CombinedStrategy(BaseStrategy):
             'short_window': 20,
             'long_window': 50,
             'ma_type': 'SMA',
-            'price_column': 'close'
+            'price_column': 'Close'  # Use standard Close column
         }
         
         for key, value in default_params.items():

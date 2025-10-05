@@ -425,7 +425,7 @@ class SingleAssetBacktester:
             date_str = date.strftime('%Y-%m-%d') if hasattr(date, 'strftime') else str(date)
             
             # Update portfolio with current prices
-            current_price = row['close']
+            current_price = row.get('Close', row.get('close', 0))  # Handle both cases
             self.portfolio.update_prices({symbol: current_price})
             
             # Check for signals on this date
@@ -675,7 +675,8 @@ class SingleAssetBacktester:
         max_wins, max_losses = self._calculate_consecutive_wins_losses(self.trades)
         
         # Generate benchmark returns (simple buy-and-hold strategy)
-        benchmark_returns = price_data['close'].pct_change().fillna(0)
+        close_col = 'Close' if 'Close' in price_data.columns else 'close'
+        benchmark_returns = price_data[close_col].pct_change().fillna(0)
         benchmark_equity = (1 + benchmark_returns).cumprod() * self.config.initial_capital
         
         # Benchmark-relative metrics
@@ -1226,11 +1227,13 @@ def benchmark_strategy_analysis(
     
     # Calculate benchmark performance (buy-and-hold if no benchmark data provided)
     if benchmark_data is None:
-        benchmark_returns = price_data['close'].pct_change().fillna(0)
-        benchmark_total_return = ((price_data['close'].iloc[-1] / price_data['close'].iloc[0]) - 1) * 100
+        close_col = 'Close' if 'Close' in price_data.columns else 'close'
+        benchmark_returns = price_data[close_col].pct_change().fillna(0)
+        benchmark_total_return = ((price_data[close_col].iloc[-1] / price_data[close_col].iloc[0]) - 1) * 100
     else:
-        benchmark_returns = benchmark_data['close'].pct_change().fillna(0)
-        benchmark_total_return = ((benchmark_data['close'].iloc[-1] / benchmark_data['close'].iloc[0]) - 1) * 100
+        close_col = 'Close' if 'Close' in benchmark_data.columns else 'close'
+        benchmark_returns = benchmark_data[close_col].pct_change().fillna(0)
+        benchmark_total_return = ((benchmark_data[close_col].iloc[-1] / benchmark_data[close_col].iloc[0]) - 1) * 100
     
     # Performance comparison
     analysis = {

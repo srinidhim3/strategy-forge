@@ -15,17 +15,6 @@ id = "process1"
 name = "To Do"
 
   [[processes.tasks]]
-  id = "task18"
-  title = "Create CLI Runner for Single Stock"
-  description = "Create main.py as command-line interface to run complete pipeline for single stock: fetch → process → backtest → display results"
-  tag = "dev"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
   id = "task19"
   title = "Test Single Stock Pipeline"
   description = "Test complete pipeline with a sample stock (e.g., RELIANCE.NS), debug issues, and ensure accurate point-in-time calculations"
@@ -501,17 +490,7 @@ name = "To Do"
 [[processes]]
 id = "process2"
 name = "In Progress"
-
-  [[processes.tasks]]
-  id = "task17"
-  title = "Implement Performance Metrics"
-  description = "Create src/utils/performance.py to calculate Sharpe ratio, max drawdown, CAGR, volatility, and other portfolio performance metrics"
-  tag = "dev"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
+tasks = [ ]
 
 [[processes]]
 id = "process3"
@@ -686,6 +665,28 @@ name = "Done"
   id = "task16"
   title = "Create Single-Asset Backtester"
   description = "Create src/models/backtester.py to simulate trades on single stock using strategy signals, track positions, and calculate returns"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task17"
+  title = "Implement Performance Metrics"
+  description = "Create src/utils/performance.py to calculate Sharpe ratio, max drawdown, CAGR, volatility, and other portfolio performance metrics"
+  tag = "dev"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task18"
+  title = "Create CLI Runner for Single Stock"
+  description = "Create main.py as command-line interface to run complete pipeline for single stock: fetch → process → backtest → display results"
   tag = "dev"
   linkFiles = [ ]
   dueDate = ""

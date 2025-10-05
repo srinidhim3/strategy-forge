@@ -12,7 +12,10 @@ Usage:
 Features:
     - Complete data pipeline integration
     - Multiple strategy options with configuration
-    - Comprehensive performance reporting
+    - Comprehensive per                'total_return': result.total_return_pct,
+                'sharpe_ratio': result.sharpe_ratio,
+                'sortino_ratio': result.sortino_ratio,
+                'max_drawdown': result.max_drawdown,nce reporting
     - Export capabilities (JSON, CSV)
     - Advanced performance metrics
     - Benchmark comparison
@@ -496,17 +499,16 @@ Available Strategies:
         output.append(f"🎯 Strategy: {result.strategy_name}")
         output.append(f"📅 Period: {result.start_date} to {result.end_date}")
         output.append(f"💰 Initial Capital: ${result.initial_capital:,.2f}")
-        output.append(f"💎 Final Value: ${result.final_value:,.2f}")
+        output.append(f"💎 Final Value: ${result.final_portfolio_value:,.2f}")
         output.append("")
         
         # Performance metrics
         output.append("📈 PERFORMANCE SUMMARY")
         output.append("-" * 30)
-        output.append(f"Total Return: {result.total_return:.2%}")
-        output.append(f"Annualized Return: {result.annualized_return:.2%}")
+        output.append(f"Total Return: {result.total_return_pct:.2%}")
         output.append(f"Sharpe Ratio: {result.sharpe_ratio:.3f}")
+        output.append(f"Sortino Ratio: {result.sortino_ratio:.3f}")
         output.append(f"Max Drawdown: {result.max_drawdown:.2%}")
-        output.append(f"Volatility: {result.volatility:.2%}")
         output.append("")
         
         # Trading statistics
@@ -572,12 +574,11 @@ Available Strategies:
             },
             'performance': {
                 'initial_capital': result.initial_capital,
-                'final_value': result.final_value,
-                'total_return': result.total_return,
-                'annualized_return': result.annualized_return,
+                'final_value': result.final_portfolio_value,
+                'total_return': result.total_return_pct,
                 'sharpe_ratio': result.sharpe_ratio,
                 'max_drawdown': result.max_drawdown,
-                'volatility': result.volatility
+                'sortino_ratio': result.sortino_ratio
             },
             'trading': {
                 'total_trades': result.total_trades,
@@ -615,7 +616,7 @@ Available Strategies:
             "metric,value",
             f"symbol,{symbol}",
             f"strategy,{result.strategy_name}",
-            f"total_return,{result.total_return}",
+            f"total_return,{result.total_return_pct}",
             f"sharpe_ratio,{result.sharpe_ratio}",
             f"max_drawdown,{result.max_drawdown}",
             f"total_trades,{result.total_trades}",

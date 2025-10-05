@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
 """
-Test script for DataProcessingPipeline integration.
+Test script for DataProcessingPipeline integration with Indian NIFTY 50 stocks.
 
-This script tests the complete unified pipeline:
-1. Single stock processing with default configuration
-2. Custom configuration with different parameters
-3. Multiple stock processing
+This script tests the complete unified pipeline using Indian market data:
+1. Single stock processing with default configuration (RELIANCE.NS)
+2. Custom configuration with different parameters (INFY.NS)
+3. Multiple stock processing (NIFTY 50 stocks)
 4. Performance benchmarking
 5. Error handling and validation
+
+Testing with Indian stocks helps validate:
+- Different timezone handling (IST vs UTC)
+- Currency and market conventions
+- Different financial reporting standards
+- NSE data quality and availability
 """
 
 import sys
@@ -22,14 +28,14 @@ from datetime import datetime, timedelta
 
 
 def test_basic_pipeline():
-    """Test basic pipeline functionality with AAPL."""
+    """Test basic pipeline functionality with RELIANCE.NS (Indian stock)."""
     print("🧪 Test 1: Basic Pipeline Processing")
     print("-" * 40)
     
     try:
-        # Test with convenience function
+        # Test with convenience function - using RELIANCE.NS (Reliance Industries)
         data = process_stock_data(
-            symbol="AAPL",
+            symbol="RELIANCE.NS",
             start_date="2023-01-01", 
             end_date="2024-06-30",
             reporting_lag_days=45
@@ -75,7 +81,7 @@ def test_custom_configuration():
         
         # Create pipeline and process
         pipeline = DataProcessingPipeline(config)
-        data = pipeline.process_stock("MSFT")
+        data = pipeline.process_stock("INFY.NS")  # Infosys - Indian IT giant
         
         print(f"✅ Custom configuration test passed")
         print(f"   Data shape: {data.shape}")
@@ -97,8 +103,8 @@ def test_custom_configuration():
 
 
 def test_multiple_stocks():
-    """Test processing multiple stocks."""
-    print("\n🧪 Test 3: Multiple Stock Processing")
+    """Test processing multiple Indian stocks from NIFTY 50."""
+    print("\n🧪 Test 3: Multiple NIFTY 50 Stock Processing")
     print("-" * 40)
     
     try:
@@ -112,8 +118,8 @@ def test_multiple_stocks():
         
         pipeline = DataProcessingPipeline(config)
         
-        # Test with multiple stocks
-        symbols = ["AAPL", "MSFT", "GOOGL"]
+        # Test with multiple Indian stocks from NIFTY 50
+        symbols = ["RELIANCE.NS", "TCS.NS", "INFY.NS", "HDFCBANK.NS", "ICICIBANK.NS"]
         results = pipeline.process_multiple_stocks(
             symbols, 
             continue_on_error=True
@@ -146,7 +152,7 @@ def test_error_handling():
     
     # Test 1: Invalid symbol
     try:
-        data = process_stock_data("INVALID_SYMBOL_XYZ")
+        data = process_stock_data("INVALID_SYMBOL_XYZ.NS")
         print("❌ Invalid symbol test failed - should have raised error")
         test_results.append(False)
     except Exception:
@@ -198,7 +204,7 @@ def test_data_quality_checks():
         )
         
         pipeline = DataProcessingPipeline(config)
-        data = pipeline.process_stock("AAPL")
+        data = pipeline.process_stock("RELIANCE.NS")  # Test with Reliance Industries
         
         # Perform data quality checks
         quality_checks = []
@@ -242,9 +248,9 @@ def test_data_quality_checks():
 
 
 def run_comprehensive_pipeline_test():
-    """Run comprehensive test suite for DataProcessingPipeline."""
-    print("🚀 DataProcessingPipeline Comprehensive Test Suite")
-    print("=" * 60)
+    """Run comprehensive test suite for DataProcessingPipeline with Indian stocks."""
+    print("🚀 DataProcessingPipeline Comprehensive Test Suite (NIFTY 50 Stocks)")
+    print("=" * 70)
     
     test_functions = [
         ("Basic Pipeline Processing", test_basic_pipeline),
